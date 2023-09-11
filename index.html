@@ -23,7 +23,7 @@
         <div class="container">
           <div class="primary__wrapper">
             <div class="primary__details-wrapper">
-              <h1 class="primary__title" title="Toshkent shahar namoz vaqtlari">Toshkent shahar namoz vaqtlari</h1>
+              <h1 class="primary__title" title="Toshkent shahar namoz vaqtlari"><span class="primary__region-desc js-region-name">Toshkent</span> shahar namoz vaqtlari</h1>
               <p class="primary__desc">Sana: <span class="primary__date-time"></span>
               </p>
             </div>
@@ -32,6 +32,23 @@
               <button class="primary__btn js-week" type="button">Haftalik</button>
               <button class="primary__btn js-month" type="button">Oylik</button>
             </div>
+            <form class="primary__form js-form">
+              <select class="primary__input js-region-input" name='region_name' aria-label="Regionni tanlang">
+                <option value="" hidden>Regionni tanlang</option>
+                <option value="Toshkent">Toshkent</option>
+                <option value="Andijon">Andijon</option>
+                <option value="Farg'ona">Farg'ona</option>
+                <option value="Namangan">Namangan</option>
+                <option value="Guliston">Guliston</option>
+                <option value="Jizzax">Jizzax</option>
+                <option value="Samarqand">Samarqand</option>
+                <option value="Qarshi">Qarshi</option>
+                <option value="Buxoro">Buxoro</option>
+                <option value="Navoiy">Navoiy</option>
+                <option value="Xiva">Xiva</option>
+                <option value="Nukus">Nukus</option>
+              </select>
+            </form>
             <div class="primary__info-wrapper js-info-wrapper">
               <ul class="primary__list js-list">
                 <li class="primary__item"> Bomdod <time class="primary__item-time" datetime="00:00"></time>
@@ -67,12 +84,12 @@
                     <template class="js-table-temp">
                       <tr class="info-table__body-row">
                         <td class="info-table__data">Yakshanba</td>
-                        <td class="info-table__data">04:55</td>
-                        <td class="info-table__data">05:58</td>
-                        <td class="info-table__data">12:50</td>
-                        <td class="info-table__data">15:00</td>
-                        <td class="info-table__data">18:55</td>
-                        <td class="info-table__data">20:00</td>
+                        <td class="info-table__data">00:00</td>
+                        <td class="info-table__data">00:00</td>
+                        <td class="info-table__data">00:00</td>
+                        <td class="info-table__data">00:00</td>
+                        <td class="info-table__data">00:00</td>
+                        <td class="info-table__data">00:00</td>
                       </tr>
                     </template>
                   </tbody>

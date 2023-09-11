@@ -1,4 +1,9 @@
-// Date information 
+// All variables 
+
+const elList = document.querySelector('.js-list');
+const elRegionInput = document.querySelector('.js-region-input');
+const elRegionName = document.querySelector('.js-region-name');
+let region = "Toshkent";
 const currentDate = new Date();
 const current_date = new Date();
 const monthMap = [
@@ -15,11 +20,52 @@ const monthMap = [
     "Noyabr",
     "Dekabr"
     
-]
-
-
+];
 const elDateDesc = document.querySelector('.primary__desc');
 const elDateTime = document.querySelector('.primary__date-time');
+const elWeekTableBody = document.querySelector('.js-data-table-body');
+const elTableTemp = document.querySelector('.js-table-temp').content;
+const fragment = document.createDocumentFragment();
+const elTableTitle = document.querySelector('.js-table-title');
+const elTableWrapper = document.querySelector('.js-table-data-wrapper');
+const elInfoWrapper = document.querySelector('.js-info-wrapper');
+const elDayBtn = document.querySelector('.js-day');
+const elWeekBtn = document.querySelector('.js-week');
+const elMonthBtn = document.querySelector('.js-month');
+
+
+// Region 
+
+function change_region(time) {
+    elRegionName.textContent = region;
+    elRegionInput.addEventListener('change', (evt) => {
+    if(elRegionInput.value.trim().length > 0) {
+        region = elRegionInput.value.trim();
+        elRegionName.textContent = region;
+    }
+
+    if(time === 'daily') {
+        getDaily(`https://islomapi.uz/api/present/day?region=${region}`);
+        return;
+    }
+
+    if(time === 'weekly') {
+        getData(`https://islomapi.uz/api/present/week?region=${region}`);
+        return;
+    }
+
+    if(time === 'monthly') {
+        getData(`https://islomapi.uz/api/monthly?region=${region}&month=${currentDate.getMonth() + 1}`, true);
+        return;
+    }
+
+    });
+}
+
+
+
+
+// Date information 
 
 function update_time() {
     const currentDate = new Date();
@@ -32,7 +78,7 @@ function update_time() {
     elDateTime.textContent = `${hours}:${minutes}:${seconds}s`;
     elDateDesc.textContent = `Sana: ${year} yil ${day} ${month}`;
     elDateDesc.appendChild(elDateTime);
-    console.log("Hello");
+    
 }
 
 setInterval(update_time, 1000);
@@ -57,8 +103,6 @@ elBtnWrapper.addEventListener('click', (evt) => {
 
 // Daily information
 
-const elList = document.querySelector('.js-list');
-
 function renderDaily(data, list) {
     elItemTimes = list.querySelectorAll('.primary__item-time');
     data.forEach((item, index) => {
@@ -82,17 +126,14 @@ async function getDaily(url) {
     
 }
 
-getDaily('https://islomapi.uz/api/present/day?region=Toshkent');
+// Default function call 
 
+getDaily(`https://islomapi.uz/api/present/day?region=${region}`);
+
+change_region('daily');
 
 
 // Weekly and Monthly Information
-
-
-const elWeekTableBody = document.querySelector('.js-data-table-body');
-const elTableTemp = document.querySelector('.js-table-temp').content;
-const fragment = document.createDocumentFragment();
-const elTableTitle = document.querySelector('.js-table-title');
 
 function renderAsTable(data, node, isMonthly = false) {
     node.innerHTML = ''; 
@@ -115,10 +156,12 @@ function renderAsTable(data, node, isMonthly = false) {
      nodes[2].datetime = date.replaceAll('.', '-');
      nodes[3].textContent = item.times.peshin;
      nodes[3].datetime = date.replaceAll('.', '-');
-     nodes[4].textContent = item.times.shom_iftor;
+     nodes[4].textContent = item.times.asr;
      nodes[4].datetime = date.replaceAll('.', '-');
-     nodes[5].textContent = item.times.hufton;
+     nodes[5].textContent = item.times.shom_iftor;
      nodes[5].datetime = date.replaceAll('.', '-');
+     nodes[6].textContent = item.times.hufton;
+     nodes[6].datetime = date.replaceAll('.', '-');
      fragment.appendChild(temp);
     }); 
     elTableTitle.textContent = monthMap[currentDate.getMonth()];
@@ -137,32 +180,29 @@ async function getData(url, isMonthly = false) {
 }
 
 
+
+
 // Daily, Weekly, Monthly Information 
-
-
-const elTableWrapper = document.querySelector('.js-table-data-wrapper');
-const elInfoWrapper = document.querySelector('.js-info-wrapper');
-const elDayBtn = document.querySelector('.js-day');
-const elWeekBtn = document.querySelector('.js-week');
-const elMonthBtn = document.querySelector('.js-month');
-
 
 elDayBtn.addEventListener('click', (evt) => {
     elTableWrapper.style.display = 'none';
     elInfoWrapper.style.display = 'block';
-    getDaily('https://islomapi.uz/api/present/day?region=Toshkent');
+    getDaily(`https://islomapi.uz/api/present/day?region=${region}`);
+    change_region('daily');
 }); 
 
 elWeekBtn.addEventListener('click' , (evt) => {
     elTableWrapper.style.display = 'flex';
     elInfoWrapper.style.display = 'none';
-    getData('https://islomapi.uz/api/present/week?region=Toshkent');
+    getData(`https://islomapi.uz/api/present/week?region=${region}`);
+    change_region('weekly');
 });
 
 elMonthBtn.addEventListener('click' , (evt) => {
     elTableWrapper.style.display = 'flex';
     elInfoWrapper.style.display = 'none';
-    getData(`https://islomapi.uz/api/monthly?region=Toshkent&month=${currentDate.getMonth() + 1}`, true);
+    getData(`https://islomapi.uz/api/monthly?region=${region}&month=${currentDate.getMonth() + 1}`, true);
+    change_region('monthly');
 });
 
 
